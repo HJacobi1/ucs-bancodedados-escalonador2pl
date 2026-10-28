@@ -1,0 +1,409 @@
+:root,
+[data-theme="dark"] {
+  --bg-app: #0d0f12;
+  --bg-panel: #15181e;
+  --bg-panel-header: #1a1e26;
+  --bg-subtle: #1e232d;
+  --bg-input: #0f1217;
+  --border-color: #282e3a;
+  --border-strong: #363e4f;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Cores semânticas inegociáveis das transações (2PL Strict) */
+  --status-active: #22c55e;
+  --status-active-bg: rgba(34, 197, 94, 0.1);
+  --status-active-border: rgba(34, 197, 94, 0.45);
+  --status-active-text: #86efac;
+
+  --status-delay: #f59e0b;
+  --status-delay-bg: rgba(245, 158, 11, 0.1);
+  --status-delay-border: rgba(245, 158, 11, 0.45);
+  --status-delay-text: #fcd34d;
+
+  --status-aborted: #ef4444;
+  --status-aborted-bg: rgba(239, 68, 68, 0.1);
+  --status-aborted-border: rgba(239, 68, 68, 0.45);
+  --status-aborted-text: #fca5a5;
+
+  --status-committed: #3b82f6;
+  --status-committed-bg: rgba(59, 130, 246, 0.1);
+  --status-committed-border: rgba(59, 130, 246, 0.45);
+  --status-committed-text: #93c5fd;
+
+  --lock-tag-color: #a855f7;
+  --lock-tag-bg: rgba(168, 85, 247, 0.12);
+  --lock-tag-border: rgba(168, 85, 247, 0.4);
+  --lock-tag-text: #d8b4fe;
+
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #2563eb;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+
+  /* Identificadores discretos por transação */
+  --tx-1: #38bdf8;
+  --tx-2: #fb923c;
+  --tx-3: #a78bfa;
+  --tx-4: #f472b6;
+  --tx-5: #2dd4bf;
+}
+
+[data-theme="light"] {
+  --bg-app: #eef1f5;
+  --bg-panel: #ffffff;
+  --bg-panel-header: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --bg-input: #ffffff;
+  --border-color: #dde3ea;
+  --border-strong: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* Cores semânticas das transações ajustadas para contraste no claro */
+  --status-active: #16a34a;
+  --status-active-bg: #f0fdf4;
+  --status-active-border: #86efac;
+  --status-active-text: #15803d;
+
+  --status-delay: #d97706;
+  --status-delay-bg: #fffbeb;
+  --status-delay-border: #fcd34d;
+  --status-delay-text: #b45309;
+
+  --status-aborted: #dc2626;
+  --status-aborted-bg: #fef2f2;
+  --status-aborted-border: #fca5a5;
+  --status-aborted-text: #b91c1c;
+
+  --status-committed: #2563eb;
+  --status-committed-bg: #eff6ff;
+  --status-committed-border: #93c5fd;
+  --status-committed-text: #1d4ed8;
+
+  --lock-tag-color: #7e22ce;
+  --lock-tag-bg: #faf5ff;
+  --lock-tag-border: #d8b4fe;
+  --lock-tag-text: #6b21a8;
+
+  --accent-primary: #2563eb;
+  --accent-primary-hover: #1d4ed8;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+
+  --tx-1: #0284c7;
+  --tx-2: #ea580c;
+  --tx-3: #7c3aed;
+  --tx-4: #db2777;
+  --tx-5: #0d9488;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: left;
+}
+
+code,
+pre,
+.mono {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, ui-monospace, monospace;
+}
+
+/* Scrollbars discretas e técnicas */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Utilitários globais de painel */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg-panel-header);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.panel-title svg {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.panel-body {
+  padding: 10px 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.badge-count {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.badge-count.warning {
+  background: var(--status-delay-bg);
+  color: var(--status-delay-text);
+  border-color: var(--status-delay-border);
+}
+
+.empty-state {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+/* Layout Principal e Topbar (App.vue) */
+.workspace-shell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 12px 10px;
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 14px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--status-committed-bg);
+  border: 1px solid var(--status-committed-border);
+  color: var(--status-committed-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-text h1 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.topbar-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-state-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+}
+
+.state-running {
+  background: var(--status-active-bg);
+  border-color: var(--status-active-border);
+  color: var(--status-active-text);
+}
+
+.state-done {
+  background: var(--status-committed-bg);
+  border-color: var(--status-committed-border);
+  color: var(--status-committed-text);
+}
+
+.step-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-strong);
+  font-size: 0.8rem;
+}
+
+.step-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.step-counter strong {
+  color: var(--text-primary);
+  font-size: 0.88rem;
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--border-strong);
+  background: var(--border-color);
+}
+
+.workspace-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 4.8fr 5.2fr;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.workspace-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Responsividade em telas menores ou janelas reduzidas */
+@media (max-width: 1080px) {
+  html,
+  body,
+  #app {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .workspace-shell {
+    height: auto;
+    overflow: visible;
+  }
+
+  .workspace-grid {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .workspace-col {
+    overflow: visible;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+  }
+}
